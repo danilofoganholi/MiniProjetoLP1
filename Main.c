@@ -1,32 +1,49 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
+#include <ctype.h>
 
-void pegaInput(char* opcao,int* nDeslocamento, char* text)
-{
-	//essa função pegar e validar a opção de encriptação escolhida,
-	//a quantidade de deslocamento e o texto.
+int validacao(char opcao,int nDeslocamento)
+{		
+	switch (opcao)
+	{
+		case 's':
+		case 'S':
+			if (nDeslocamento<=35 && nDeslocamento>=-35)
+			{
+				return 0;
+			}
+			printf("Error: out of bound\n");
+			break;
+		case 't':
+		case 'T':
+			if (nDeslocamento<=50 && nDeslocamento>=2)
+			{
+				return 0;
+			}
+			printf("Error: out of bound\n");
+			break;
+		case 'e':
+		case 'E':
+		case 'q':
+		case '\n':
+			return 0;
+			break;
+		default:
+			printf("Error: Unkown option\n");//mensagem de erro para opcao invalida
+			break;
+	}
+	return 1;
 }
 
-int validaOpcao(char* opcao)
-{
-	//essa função valida a opção digitada pelo utilizador 
-	// opcoes = (s,S,t,T,e,E,q)
-}
-
-int validaNdeslocamento(char* opcao)
-{
-	//essa função valida a opção digitada pelo utilizador 
-	// [-35 ; 35]
-}
-
-char cifraDeSubstituição(char text,char* mensagemEncriptada)
+char* cifraDeSubstituicao(int nDeslocamento, char text[167])
 {
 	/*
-	Uma cifra de substituição é um algoritmo que permite a encriptação 
+	Uma cifra de substituicao e um algoritmo que permite a encriptacao 
 	substituindo um dado caracter por outro. A forma como se encontra 
 	a correspondência de um caracter do alfabeto para outro pode ser 
-	definido através de um shift do alfabeto para a direita. Por exemplo 
-	uma cifra de substituição 5 tem a seguinte correspondência:
+	definido atraves de um shift do alfabeto para a direita. Por exemplo 
+	uma cifra de substituicao 5 tem a seguinte correspondência:
 
 	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ - Alfabeto
 	56789ABCDEFGHIJKLMNOPQRSTUVWXYZ01234 - Alfebeto Cifrado
@@ -34,103 +51,117 @@ char cifraDeSubstituição(char text,char* mensagemEncriptada)
 	CADA MALLOC PRECISA DE UM FREE - Frase original
 	HFIF RFQQTH UWJHNXF IJ ZR KWJJ - Frase encriptada
 
-	Nesta versão simplificada apenas os caracteres 
-	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ são encriptados. Desta forma, 
-	o texto deverá ser convertido para letras maiúsculas e todos os caracteres 
-	que não pertencem ao grupo dos caracteres encriptados deverão manter-se 
-	inalterados - como é o caso dos espaços no exemplo anterior. Caso o utilizador 
-	especifique um número positivo, o deslocamento é ser feito para a direita 
-	(como no caso do exemplo). Caso o número seja negativo, o deslocamento é feito
+	Nesta versao simplificada apenas os caracteres 
+	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ sao encriptados. Desta forma, 
+	o texto devera ser convertido para letras maiúsculas e todos os caracteres 
+	que nao pertencem ao grupo dos caracteres encriptados deverao manter-se 
+	inalterados - como e o caso dos espaços no exemplo anterior. Caso o utilizador 
+	especifique um número positivo, o deslocamento e ser feito para a direita 
+	(como no caso do exemplo). Caso o número seja negativo, o deslocamento e feito
 	 para a esquerda.
 
-	O utilizador poderá introduzir o texto utilizando letras maiúsculas ou minúsculas,
-	 mas o resultado deverá ser sempre apresentado em maiúsculas.
+	O utilizador podera introduzir o texto utilizando letras maiúsculas ou minúsculas,
+	 mas o resultado devera ser sempre apresentado em maiúsculas.
 
-	O parâmetro n introduzido pelo utilizador terá obrigatoriamente que estar no 
-	intervalo [-35 ; 35]. Caso o número esteja fora do intervalo o programa deverá 
-	imprimir a seguinte mensagem de erro: Error: out of bound e deverá voltar a esperar
+	O parametro n introduzido pelo utilizador tera obrigatoriamente que estar no 
+	intervalo [-35 ; 35]. Caso o número esteja fora do intervalo o programa devera 
+	imprimir a seguinte mensagem de erro: Error: out of bound e devera voltar a esperar
 	 um novo input do utilizador.
 	 */
+	return " ";
 }
 
-char desencriptarCifraDeSubstituição(char text,char* mensagemEncriptada)
+char* desencriptarCifraDeSubstituicao(int nDeslocamento, char text[167])
 {
-
+	return " ";
 }
 
-char cifraDeTransposição(char text,char* mensagemEncriptada)
+char* cifraDeTransposicao(int nColuna, char text[167])
 {
-	/*Ao contrario da cifra de substituição, numa cifra de transposição
-	 as letras existentes na mensagem continuam a ser as mesmas que na 
-	 mensagem original. Contudo estas letras são mostradas numa ordem 
-	 diferente.
+	
+	char textoEncriptado[167];
+	char matrizTexto[100][100];
+	int textSize=0, count=1, aux=0;
 
-	Uma cifra de transposição simples pode ser feita com recurso a uma matriz. 
-	O texto é disposto sobre a forma matricial. Essa matriz é transposta e o 
-	texto cifrado é extraído dessa matriz.
+	//decobrindo quantos caracteres o texto possui
+	for(int i=0; i<167;i++)
+	{
+		if (text[i]=='\0')
+		{
+			textSize=i;
+			break;
+		}
+	}
 
-	Exemplo:
+	textSize=textSize-2;
 
-	Texto original:
+	//passando o texto para a matriz
+	for(int i=0;i<((textSize/nColuna)+1);i++)
+	{
+		for(int j=0; j<nColuna;j++)
+		{
+			if (!(aux))
+			{
+				if (text[count]=='\0')
+				{
+					matrizTexto[i][j]=' '; 
+					matrizTexto[i][j-1]=' '; 
+					aux=1;
+				}else
+				{
+					matrizTexto[i][j]=text[count];
+				}
+			}else
+			{
+				matrizTexto[i][j]=' ';
+			}
+			count++;
+		}
+	}
 
-	"Sou um guardador de rebanhos."
+	//print da matrix
+	for(int i=0;i<((textSize/nColuna)+1);i++)
+	{
+		for (int j=0; j<nColuna;j++)
+		{
+			printf("|  %c  |",matrizTexto[i][j]);
+		}
+		printf("\n");
+	}
 
-	Texto disposto em forma matricial numa matriz com 4 colunas:
+	count=0;//reset variavel
 
-	+---+---+---+---+
-	| S | o | u |   |
-	+---+---+---+---+
-	| u | m |   | g |
-	+---+---+---+---+
-	| u | a | r | d |
-	+---+---+---+---+
-	| a | d | o | r |
-	+---+---+---+---+
-	|   | d | e |   |
-	+---+---+---+---+
-	| r | e | b | a |
-	+---+---+---+---+
-	| n | h | o | s |
-	+---+---+---+---+
-	| . |   |   |   |
-	+---+---+---+---+
+	//montando texto encriptado
+	for(int j=0; j<nColuna;j++)
+	{
+		for(int i=0;i<(textSize/nColuna)+1;i++)
+		{
+			textoEncriptado[count]=toupper(matrizTexto[i][j]);
+			count++;
+		}
+		textoEncriptado[count]='\0';
+	}
 
-	Matriz transposta:
-
-	+---+---+---+---+---+---+---+---+
-	| S | u | u | a |   | r | n | . |
-	+---+---+---+---+---+---+---+---+
-	| o | m | a | d | d | e | h |   |
-	+---+---+---+---+---+---+---+---+
-	| u |   | r | o | e | b | o |   |
-	+---+---+---+---+---+---+---+---+
-	|   | g | d | r |   | a | s |   |
-	+---+---+---+---+---+---+---+---+
-
-	Frase Cifrada: "Suua rn.omaddeh u roebo gdr as "
-
-	O parâmetro n introduzido pelo utilizador terá obrigatoriamente que estar
-	 no intervalo [2 ; 50]. Caso o número esteja fora do intervalo o programa 
-	 deverá imprimir a seguinte mensagem de erro: Error: out of bound e deverá 
-	 voltar a esperar um novo input do utilizador.
-	 */
+	printf("Show me : %s\n",textoEncriptado);
+	return " ";
 }
 
-char desencriptarCifraDeTransposição(char text,char* mensagemEncriptada)
+char* desencriptarCifraDeTransposicao(int nDeslocamento, char text[167])
 {
-
+	return " ";
 }
 
-char cifradeTransposiçãoExtra(char text,char* mensagemEncriptada)
+/*
+char cifraDeTransposicaoExtra(char text)
 {
-	/*Um outro dipo de cifra de transposição simples pode ser descrita da seguinte forma:
+	Um outro dipo de cifra de transposicao simples pode ser descrita da seguinte forma:
 
-	Considere uma string S, constituida por N carateres, identificados na forma S = S1S2...SN
+	Considere uma texting S, constituida por N carateres, identificados na forma S = S1S2...SN
 
-		Se o comprimento de S é 1 ou 2 então a função encript(S) = S, isto é, a própria string.
-		Se S for uma string de comprimento N > 2 então encript(S) = encript(Sk...S2S1) + encript(SNSN-1...Sk+1) + em que:
-			k = N/2, divisão inteira
-			símbolo + significa concatenação de strings, e.g. AB+CB=ABCD
+		Se o comprimento de S e 1 ou 2 entao a funcao encript(S) = S, isto e, a própria texting.
+		Se S for uma texting de comprimento N > 2 entao encript(S) = encript(Sk...S2S1) + encript(SNSN-1...Sk+1) + em que:
+			k = N/2, divisao inteira
+			símbolo + significa concatenacao de textings, e.g. AB+CB=ABCD
 
 	Exemplos:
 
@@ -140,31 +171,70 @@ char cifradeTransposiçãoExtra(char text,char* mensagemEncriptada)
 						= encript("34") + encript("12") + encript("78") + encript("56") 
 						= "34127856"
 
-	Neste caso, todos os caracteres do texto deverão ser encriptados e o parâmetro n não deverá ser lido.
+	Neste caso, todos os caracteres do texto deverao ser encriptados e o parametro n nao devera ser lido.
 
-	Esta cifra implementa-se naturalmente usando uma função recursiva. Uma declaração possível para esta função é a seguinte:
+	Esta cifra implementa-se naturalmente usando uma funcao recursiva. Uma declaracao possível para esta funcao e a seguinte:
 
 	char * encrypt(char * s, const int length);
 
-	Será também conveniente a implementação de uma função que inverta uma string com a seguinte declaração:
+	Sera tambem conveniente a implementacao de uma funcao que inverta uma texting com a seguinte declaracao:
 
 	char * reverse(char * s, const unsigned int n);
 
-	A implementação desta funcionalidade é opcional e será avaliada, num constest separado no PANDORA (2).
-	 Os alunos que optarem por fazer esta implementação poderão substituir a nota de um dos exercícios práticos
-	  pela nota obtida nesta implementação.
+	A implementacao desta funcionalidade e opcional e sera avaliada, num constest separado no PANDORA (2).
+	 Os alunos que optarem por fazer esta implementacao poderao substituir a nota de um dos exercícios praticos
+	  pela nota obtida nesta implementacao.
 
-	Os alunos não terão melhor nota no Mini Projecto pela implementação desta funcionalidade. 
-	Apenas poderão substituir a nota obtida num dos exercícios práticos.*/
+	Os alunos nao terao melhor nota no Mini Projecto pela implementacao desta funcionalidade. 
+	Apenas poderao substituir a nota obtida num dos exercícios praticos.
+	return ' ';
 }
+
+char desencriptarcifraDeTransposicaoExtra(char text)
+{
+	return ' ';
+}
+*/
 
 int main()
 {
-	//declaração das variáveis
+	//declaracao das variaveis
 	char opcao = ' ';
 	int nDeslocamento = 0;
-	char text[167] = "";
-	char mensagemEncriptada[167];
+	char text[167];
+	
+	do//rodar o programa enquanto opcao for diferente de q
+	{
+		do//pegando input e validando
+		{
+			scanf("%1c %d",&opcao, &nDeslocamento);//pegando opcao e numero de deslocamento
+			fgets(text, 166, stdin);//pegando texto para ser encriptado
+	
+		} while (validacao(opcao,nDeslocamento));//validando opcao e deslocamento, se inválido motextar erro e pedir novamente 
 
-
+		switch (opcao)
+		{
+			case 's':
+				printf("%s",cifraDeSubstituicao(nDeslocamento,text));
+				break;
+			case 'S':
+				printf("%s",desencriptarCifraDeSubstituicao(nDeslocamento,text));
+				break;
+			case 't':
+				printf("%s",cifraDeTransposicao(nDeslocamento,text));
+				break;
+			case 'T':
+				printf("%s",desencriptarCifraDeTransposicao(nDeslocamento,text));
+				break;
+			case 'e':
+			case 'E':
+			case 'q':
+			case '\n':
+				break;
+			default:
+				break;
+		}
+		
+	}while(opcao!='q');
+	printf("Exiting->\n");
 }
