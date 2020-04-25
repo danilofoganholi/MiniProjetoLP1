@@ -36,9 +36,9 @@ int validacao(char opcao,int nDeslocamento)
 	return 1;
 }
 
+/*
 char* cifraDeSubstituicao(int nDeslocamento, char text[167])
 {
-	/*
 	Uma cifra de substituicao e um algoritmo que permite a encriptacao 
 	substituindo um dado caracter por outro. A forma como se encontra 
 	a correspondência de um caracter do alfabeto para outro pode ser 
@@ -67,7 +67,6 @@ char* cifraDeSubstituicao(int nDeslocamento, char text[167])
 	intervalo [-35 ; 35]. Caso o número esteja fora do intervalo o programa devera 
 	imprimir a seguinte mensagem de erro: Error: out of bound e devera voltar a esperar
 	 um novo input do utilizador.
-	 */
 	return " ";
 }
 
@@ -75,26 +74,35 @@ char* desencriptarCifraDeSubstituicao(int nDeslocamento, char text[167])
 {
 	return " ";
 }
-
+*/
 void cifraDeTransposicao(int nColuna, char text[167])
 {
 	//declarando variaveis 
-	char textoEncriptado[167];//variavel para guardar o texto encriptado
+	char textoEncriptado[300];//variavel para guardar o texto encriptado
 	char matrizTexto[100][100];//matriz para encriptar 
-	int textSize=0, count=1, aux=0; // variaveis auxiliares
+	int textSize=0, count=0, aux=0, numLinhas=0;// variaveis auxiliares
 
 	//decobrindo quantos caracteres o texto possui
-	for(int i=0; i<=167;i++)
+	for(int i=0; i<=166;i++)
 	{
 		if (text[i]=='\0')//quando encontrar o caracter que fecha a string
 		{
-			textSize=i-2;//gravar o numero de caracteres menos o primeiro e ultimo que são vazios
+			textSize=i;//gravar o numero de caracteres menos o primeiro e ultimo que são vazios
 			break;//sair
 		}
 	}
 
+	//decobrindo quantas linhas seram necessárias
+	if ((textSize%nColuna)!=0)//se o numero de calavras dividido por colunas der resto é pq precisa de mais uma linha
+	{
+		numLinhas=(textSize/nColuna)+1;//acrescentar mais uma linha na divisão
+	}else//caso de exato nao precisa acrescentar 
+	{
+		numLinhas=(textSize/nColuna);//numeros de linhas
+	}
+	
 	//passando o texto para a matriz
-	for(int i=0;i<((textSize/nColuna)+1);i++)//indo pela linha
+	for(int i=0;i<numLinhas;i++)//indo pela linha
 	{
 		for(int j=0; j<nColuna;j++)//indo pela coluna
 		{
@@ -103,7 +111,6 @@ void cifraDeTransposicao(int nColuna, char text[167])
 				if (text[count]=='\0')//verifica se o caracter é o fim da string
 				{
 					matrizTexto[i][j]=' '; //colocar espaco na ultima posição 
-					matrizTexto[i][j-1]=' '; //e na penultima pois ela é vaio
 					aux=1;//colocar auxiliar a 1 para preencher o resto da matriz com espaco
 				}else
 				{
@@ -118,21 +125,23 @@ void cifraDeTransposicao(int nColuna, char text[167])
 	}
 
 	//print da matrix
-	/*for(int i=0;i<((textSize/nColuna)+1);i++)//percorre as linhas 
+	/*
+	for(int i=0;i<numLinhas;i++)//percorre as linhas 
 	{
 		for (int j=0; j<nColuna;j++)//percorre as colunar
 		{
 			printf("|  %c  |",matrizTexto[i][j]);//imprime sedula da coluna (i,j)
 		}
 		printf("\n");//pula pra proxima linha
-	}*/
+	}
+	*/
 
 	count=0;//reset variavel
 
 	//montando texto encriptado
 	for(int j=0; j<nColuna;j++)//percorre a coluna
 	{
-		for(int i=0;i<(textSize/nColuna)+1;i++)//percorre as linhas
+		for(int i=0;i<numLinhas;i++)//percorre as linhas
 		{
 			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
 			count++;//para ir para a proxima posicao count acresenta um
@@ -140,37 +149,45 @@ void cifraDeTransposicao(int nColuna, char text[167])
 		textoEncriptado[count]='\0';//finaliza o texto
 	}
 
-	printf("%s\n",textoEncriptado);
+	printf("%s\n",textoEncriptado);//mostra o TEXTO ENCRIPTADO 
 }
 
 void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 {
 	//declarando variaveis 
-	char textoEncriptado[167];//variavel para guardar o texto encriptado
+	char textoEncriptado[300];//variavel para guardar o texto encriptado
 	char matrizTexto[100][100];//matriz para encriptar 
-	int textSize=0, count=1, aux=0; // variaveis auxiliares
+	int textSize=0, count=0, aux=0, numLinhas=0;// variaveis auxiliares
 
 	//decobrindo quantos caracteres o texto possui
-	for(int i=0; i<=167;i++)
+	for(int i=0; i<=166;i++)
 	{
 		if (text[i]=='\0')//quando encontrar o caracter que fecha a string
 		{
-			textSize=i-2;//gravar o numero de caracteres menos o primeiro e ultimo que são vazios
+			textSize=i;//gravar o numero de caracteres menos o primeiro e ultimo que são vazios
 			break;//sair
 		}
 	}
 
-	//passando o texto para a matriz
-	for(int i=0;i<((textSize/nColuna)+1);i++)//indo pela linha
+	//decobrindo quantas linhas seram necessárias
+	if ((textSize%nColuna)!=0)//se o numero de calavras dividido por colunas der resto é pq precisa de mais uma linha
 	{
-		for(int j=0; j<nColuna;j++)//indo pela coluna
+		numLinhas=(textSize/nColuna)+1;//acrescentar mais uma linha na divisão
+	}else//caso de exato nao precisa acrescentar 
+	{
+		numLinhas=(textSize/nColuna);//numeros de linhas
+	}
+	
+	//passando o texto para a matriz
+	for(int i=0;i<nColuna;i++)//indo pela linha
+	{
+		for(int j=0; j<numLinhas;j++)//indo pela coluna
 		{
 			if (!(aux))//verifica se o texto já acabou 
 			{
 				if (text[count]=='\0')//verifica se o caracter é o fim da string
 				{
 					matrizTexto[i][j]=' '; //colocar espaco na ultima posição 
-					matrizTexto[i][j-1]=' '; //e na penultima pois ela é vaio
 					aux=1;//colocar auxiliar a 1 para preencher o resto da matriz com espaco
 				}else
 				{
@@ -185,29 +202,31 @@ void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 	}
 
 	//print da matrix
-	/*for(int i=0;i<((textSize/nColuna)+1);i++)//percorre as linhas 
+	for(int i=0;i<nColuna;i++)//percorre as linhas 
 	{
-		for (int j=0; j<nColuna;j++)//percorre as colunar
+		for (int j=0; j<numLinhas;j++)//percorre as colunar
 		{
 			printf("|  %c  |",matrizTexto[i][j]);//imprime sedula da coluna (i,j)
 		}
 		printf("\n");//pula pra proxima linha
-	}*/
+	}
 
 	count=0;//reset variavel
 
 	//montando texto encriptado
-	for(int j=0; j<nColuna;j++)//percorre a coluna
+	for(int j=0; j<numLinhas;j++)//percorre a coluna
 	{
-		for(int i=0;i<(textSize/nColuna)+1;i++)//percorre as linhas
+		//printf("J = %d",j);
+		for(int i=0;i<nColuna;i++)//percorre as linhas
 		{
+			//printf("I = %d",i);
 			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
 			count++;//para ir para a proxima posicao count acresenta um
 		}
 		textoEncriptado[count]='\0';//finaliza o texto
 	}
 
-	printf("%s\n",textoEncriptado);
+	printf("%s\n",textoEncriptado);//mostra o TEXTO ENCRIPTADO 
 }
 
 /*
@@ -260,25 +279,23 @@ int main()
 	//declaracao das variaveis
 	char opcao = ' ';
 	int nDeslocamento = 0;
-	char text[170];
+	char text[167];
 	
 	do//rodar o programa enquanto opcao for diferente de q
 	{
 		do//pegando input e validando
 		{
-			scanf("%1c %d",&opcao, &nDeslocamento);//pegando opcao e numero de deslocamento
-			fgets(text, 168, stdin);//pegando texto para ser encriptado
-			//printf("////%s////",text);
+			scanf("%1c%*c%d%*c%167[^\n]",&opcao, &nDeslocamento,text);//pegando opcao, numero de deslocamento e texto
 	
-		} while (validacao(opcao,nDeslocamento));//validando opcao e deslocamento, se inválido motextar erro e pedir novamente 
+		} while (validacao(opcao,nDeslocamento));//validando opcao e deslocamento, se inválido = mostrar erro e pedir novamente 
 
 		switch (opcao)
 		{
 			case 's':
-				cifraDeSubstituicao(nDeslocamento,text);
+				//cifraDeSubstituicao(nDeslocamento,text);
 				break;
 			case 'S':
-				desencriptarCifraDeSubstituicao(nDeslocamento,text);
+				//desencriptarCifraDeSubstituicao(nDeslocamento,text);
 				break;
 			case 't':
 				cifraDeTransposicao(nDeslocamento,text);
