@@ -76,79 +76,138 @@ char* desencriptarCifraDeSubstituicao(int nDeslocamento, char text[167])
 	return " ";
 }
 
-char* cifraDeTransposicao(int nColuna, char text[167])
+void cifraDeTransposicao(int nColuna, char text[167])
 {
-	
-	char textoEncriptado[167];
-	char matrizTexto[100][100];
-	int textSize=0, count=1, aux=0;
+	//declarando variaveis 
+	char textoEncriptado[167];//variavel para guardar o texto encriptado
+	char matrizTexto[100][100];//matriz para encriptar 
+	int textSize=0, count=1, aux=0; // variaveis auxiliares
 
 	//decobrindo quantos caracteres o texto possui
-	for(int i=0; i<167;i++)
+	for(int i=0; i<=167;i++)
 	{
-		if (text[i]=='\0')
+		if (text[i]=='\0')//quando encontrar o caracter que fecha a string
 		{
-			textSize=i;
-			break;
+			textSize=i-2;//gravar o numero de caracteres menos o primeiro e ultimo que são vazios
+			break;//sair
 		}
 	}
 
-	textSize=textSize-2;
-
 	//passando o texto para a matriz
-	for(int i=0;i<((textSize/nColuna)+1);i++)
+	for(int i=0;i<((textSize/nColuna)+1);i++)//indo pela linha
 	{
-		for(int j=0; j<nColuna;j++)
+		for(int j=0; j<nColuna;j++)//indo pela coluna
 		{
-			if (!(aux))
+			if (!(aux))//verifica se o texto já acabou 
 			{
-				if (text[count]=='\0')
+				if (text[count]=='\0')//verifica se o caracter é o fim da string
 				{
-					matrizTexto[i][j]=' '; 
-					matrizTexto[i][j-1]=' '; 
-					aux=1;
+					matrizTexto[i][j]=' '; //colocar espaco na ultima posição 
+					matrizTexto[i][j-1]=' '; //e na penultima pois ela é vaio
+					aux=1;//colocar auxiliar a 1 para preencher o resto da matriz com espaco
 				}else
 				{
-					matrizTexto[i][j]=text[count];
+					matrizTexto[i][j]=text[count];//ir colocando caracter na linha e coluna certo
 				}
 			}else
 			{
-				matrizTexto[i][j]=' ';
+				matrizTexto[i][j]=' ';//preencher o resto da matrix com espaco caso precise
 			}
-			count++;
+			count++;//acrescentar o count para encaixar proximo caracter do texto
 		}
 	}
 
 	//print da matrix
-	for(int i=0;i<((textSize/nColuna)+1);i++)
+	/*for(int i=0;i<((textSize/nColuna)+1);i++)//percorre as linhas 
 	{
-		for (int j=0; j<nColuna;j++)
+		for (int j=0; j<nColuna;j++)//percorre as colunar
 		{
-			printf("|  %c  |",matrizTexto[i][j]);
+			printf("|  %c  |",matrizTexto[i][j]);//imprime sedula da coluna (i,j)
 		}
-		printf("\n");
-	}
+		printf("\n");//pula pra proxima linha
+	}*/
 
 	count=0;//reset variavel
 
 	//montando texto encriptado
-	for(int j=0; j<nColuna;j++)
+	for(int j=0; j<nColuna;j++)//percorre a coluna
 	{
-		for(int i=0;i<(textSize/nColuna)+1;i++)
+		for(int i=0;i<(textSize/nColuna)+1;i++)//percorre as linhas
 		{
-			textoEncriptado[count]=toupper(matrizTexto[i][j]);
-			count++;
+			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
+			count++;//para ir para a proxima posicao count acresenta um
 		}
-		textoEncriptado[count]='\0';
+		textoEncriptado[count]='\0';//finaliza o texto
 	}
 
-	printf("Show me : %s\n",textoEncriptado);
-	return " ";
+	printf("%s\n",textoEncriptado);
 }
 
-char* desencriptarCifraDeTransposicao(int nDeslocamento, char text[167])
+void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 {
-	return " ";
+	//declarando variaveis 
+	char textoEncriptado[167];//variavel para guardar o texto encriptado
+	char matrizTexto[100][100];//matriz para encriptar 
+	int textSize=0, count=1, aux=0; // variaveis auxiliares
+
+	//decobrindo quantos caracteres o texto possui
+	for(int i=0; i<=167;i++)
+	{
+		if (text[i]=='\0')//quando encontrar o caracter que fecha a string
+		{
+			textSize=i-2;//gravar o numero de caracteres menos o primeiro e ultimo que são vazios
+			break;//sair
+		}
+	}
+
+	//passando o texto para a matriz
+	for(int i=0;i<((textSize/nColuna)+1);i++)//indo pela linha
+	{
+		for(int j=0; j<nColuna;j++)//indo pela coluna
+		{
+			if (!(aux))//verifica se o texto já acabou 
+			{
+				if (text[count]=='\0')//verifica se o caracter é o fim da string
+				{
+					matrizTexto[i][j]=' '; //colocar espaco na ultima posição 
+					matrizTexto[i][j-1]=' '; //e na penultima pois ela é vaio
+					aux=1;//colocar auxiliar a 1 para preencher o resto da matriz com espaco
+				}else
+				{
+					matrizTexto[i][j]=text[count];//ir colocando caracter na linha e coluna certo
+				}
+			}else
+			{
+				matrizTexto[i][j]=' ';//preencher o resto da matrix com espaco caso precise
+			}
+			count++;//acrescentar o count para encaixar proximo caracter do texto
+		}
+	}
+
+	//print da matrix
+	/*for(int i=0;i<((textSize/nColuna)+1);i++)//percorre as linhas 
+	{
+		for (int j=0; j<nColuna;j++)//percorre as colunar
+		{
+			printf("|  %c  |",matrizTexto[i][j]);//imprime sedula da coluna (i,j)
+		}
+		printf("\n");//pula pra proxima linha
+	}*/
+
+	count=0;//reset variavel
+
+	//montando texto encriptado
+	for(int j=0; j<nColuna;j++)//percorre a coluna
+	{
+		for(int i=0;i<(textSize/nColuna)+1;i++)//percorre as linhas
+		{
+			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
+			count++;//para ir para a proxima posicao count acresenta um
+		}
+		textoEncriptado[count]='\0';//finaliza o texto
+	}
+
+	printf("%s\n",textoEncriptado);
 }
 
 /*
@@ -201,30 +260,31 @@ int main()
 	//declaracao das variaveis
 	char opcao = ' ';
 	int nDeslocamento = 0;
-	char text[167];
+	char text[170];
 	
 	do//rodar o programa enquanto opcao for diferente de q
 	{
 		do//pegando input e validando
 		{
 			scanf("%1c %d",&opcao, &nDeslocamento);//pegando opcao e numero de deslocamento
-			fgets(text, 166, stdin);//pegando texto para ser encriptado
+			fgets(text, 168, stdin);//pegando texto para ser encriptado
+			//printf("////%s////",text);
 	
 		} while (validacao(opcao,nDeslocamento));//validando opcao e deslocamento, se inválido motextar erro e pedir novamente 
 
 		switch (opcao)
 		{
 			case 's':
-				printf("%s",cifraDeSubstituicao(nDeslocamento,text));
+				cifraDeSubstituicao(nDeslocamento,text);
 				break;
 			case 'S':
-				printf("%s",desencriptarCifraDeSubstituicao(nDeslocamento,text));
+				desencriptarCifraDeSubstituicao(nDeslocamento,text);
 				break;
 			case 't':
-				printf("%s",cifraDeTransposicao(nDeslocamento,text));
+				cifraDeTransposicao(nDeslocamento,text);
 				break;
 			case 'T':
-				printf("%s",desencriptarCifraDeTransposicao(nDeslocamento,text));
+				desencriptarCifraDeTransposicao(nDeslocamento,text);
 				break;
 			case 'e':
 			case 'E':
