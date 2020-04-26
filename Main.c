@@ -146,8 +146,8 @@ void cifraDeTransposicao(int nColuna, char text[167])
 			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
 			count++;//para ir para a proxima posicao count acresenta um
 		}
-		textoEncriptado[count]='\0';//finaliza o texto
 	}
+	textoEncriptado[count]='\0';//finaliza o texto
 
 	printf("%s\n",textoEncriptado);//mostra o TEXTO ENCRIPTADO 
 }
@@ -202,6 +202,7 @@ void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 	}
 
 	//print da matrix
+	/*
 	for(int i=0;i<nColuna;i++)//percorre as linhas 
 	{
 		for (int j=0; j<numLinhas;j++)//percorre as colunar
@@ -210,6 +211,7 @@ void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 		}
 		printf("\n");//pula pra proxima linha
 	}
+	*/
 
 	count=0;//reset variavel
 
