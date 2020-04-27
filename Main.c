@@ -287,7 +287,7 @@ int main()
 	{
 		do//pegando input e validando
 		{
-			scanf("%1c%*c%d%*c%167[^\n]",&opcao, &nDeslocamento,text);//pegando opcao, numero de deslocamento e texto
+			scanf(" %1c%*c%d%*c%167[^\n]",&opcao, &nDeslocamento,text);//pegando opcao, numero de deslocamento e texto
 	
 		} while (validacao(opcao,nDeslocamento));//validando opcao e deslocamento, se inválido = mostrar erro e pedir novamente 
 
