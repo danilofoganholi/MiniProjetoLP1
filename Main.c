@@ -36,45 +36,175 @@ int validacao(char opcao,int nDeslocamento)
 	return 1;
 }
 
-/*
-char* cifraDeSubstituicao(int nDeslocamento, char text[167])
+void cifraDeSubstituicao(int nDeslocamento, char text[167])
 {
-	Uma cifra de substituicao e um algoritmo que permite a encriptacao 
-	substituindo um dado caracter por outro. A forma como se encontra 
-	a correspondência de um caracter do alfabeto para outro pode ser 
-	definido atraves de um shift do alfabeto para a direita. Por exemplo 
-	uma cifra de substituicao 5 tem a seguinte correspondência:
+	char indice=' ';//variavel que guardará o indice que esta sendo analisado
 
-	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ - Alfabeto
-	56789ABCDEFGHIJKLMNOPQRSTUVWXYZ01234 - Alfebeto Cifrado
+	for (int i = 0; text[i] != '\0'; i++){// percorrendo o texto passado
 
-	CADA MALLOC PRECISA DE UM FREE - Frase original
-	HFIF RFQQTH UWJHNXF IJ ZR KWJJ - Frase encriptada
+		indice = toupper(text[i]);//pegando o caracter e passando para maiuscula
+   
+   		if (indice>='A' && indice<='Z')//verificando se é uma letra
+		{
+			indice += nDeslocamento;//se for um letra acrescentamos a quantidade de deslocamento
 
-	Nesta versao simplificada apenas os caracteres 
-	0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ sao encriptados. Desta forma, 
-	o texto devera ser convertido para letras maiúsculas e todos os caracteres 
-	que nao pertencem ao grupo dos caracteres encriptados deverao manter-se 
-	inalterados - como e o caso dos espaços no exemplo anterior. Caso o utilizador 
-	especifique um número positivo, o deslocamento e ser feito para a direita 
-	(como no caso do exemplo). Caso o número seja negativo, o deslocamento e feito
-	 para a esquerda.
+			if(indice > 'Z')//se o deslocamente der um codigo ASCII maior que o codigo ASCII de Z 
+			{
+				indice = indice - 'Z';//calculamos o excedente que passou do codigo ASCII do Z
 
-	O utilizador podera introduzir o texto utilizando letras maiúsculas ou minúsculas,
-	 mas o resultado devera ser sempre apresentado em maiúsculas.
+				//Depois verificamos se ele é maior que 10 para saber se caracter passara a ser numero ou nao
+				//pois se for maior que 10 ele passara por todas os numeros e voltara a ser letra
+				if(indice > 10)
+				{	// calculamos o excedente de 10 e acrescentamos 64 para voltar ao codigo ASCII das letras maiusculas
+					indice =  64 + (indice-10);
+				}
+				else//caso seja menor ou igual a 10 significa que a letra passara a ser numero logo
+				{
+					indice +=47;//ascrescentamos ao excedente do codigo ASCII do Z, 47
+				}
+ 			}
+			else if(indice<'A')//se o deslocamente der um codigo ASCII menor que o codigo ASCII de A
+			{
+         		indice = ('A' - indice);//calculamos o excedente que passou do codigo ASCII do A
 
-	O parametro n introduzido pelo utilizador tera obrigatoriamente que estar no 
-	intervalo [-35 ; 35]. Caso o número esteja fora do intervalo o programa devera 
-	imprimir a seguinte mensagem de erro: Error: out of bound e devera voltar a esperar
-	 um novo input do utilizador.
-	return " ";
+				//Depois verificamos se ele é maior que 10 para saber se caractere passara a ser numero ou nao
+				//pois se for maior que 10 ele passara por todas os numeros e voltara a ser letra
+				if(indice>10)
+				{
+					indice = 91 -(indice - 10);
+				}
+				else if(indice<=10)//caso seja menor ou igual a 10 significa que a letra passara a ser numero logo
+				{
+					indice = 58 - indice;//decrementamos ao excedente do codigo ASCII do Z, 47
+				}
+			}
+		}
+    	else if (indice >='0' && indice <='9')//verificando se é um numero
+		{
+			indice += nDeslocamento;///se for um numero acrescentamos a quantidade de deslocamento
+
+			if(indice > '9')//se der um codigo ASCII maior que o codigo ASCII do 9 esse caractere devera passar para letra
+			{
+				indice = indice - '9';//calculamos o excedente que passou do codigo ASCII do 9
+
+				//Depois verificamos se ele é maior que 26 para saber se caracter passara a ser uma letra ou nao
+				//pois se for maior que 26 ele passara por todas as letras e voltara a ser um numero
+				if(indice > 26)
+				{	// calculamos o excedente de 26 e acrescentamos  para voltar ao codigo ASCII das letras maiusculas
+					indice =  47 + (indice-26);
+				}
+				else //caso seja menor ou igual a 26 significa que a numero passara a ser letra logo
+				{
+					indice += 64;//ascrescentamos ao excedente do codigo ASCII que comeca o alfabeto em maiusculas
+				}
+		  	}
+			else if(indice<'0')//se der um codigo ASCII menor que o codigo ASCII de 0 esse caractere devera passar para letra
+			{
+        		indice = ('0' - indice);//calculamos o excedente que passou do codigo ASCII do 0
+
+				//Depois verificamos se ele é maior que 26 para saber se caracter passara a ser uma letra ou nao
+				//pois se for maior que 26 ele passara por todas as letras e voltara a ser um numero
+        		if(indice > 26)
+				{	// calculamos o excedente de 26 e acrescentamos  para voltar ao codigo ASCII dos numeros
+            		indice= 58 -(indice-26);
+        		}
+				else//se for nenor ou igual a 26 o numero passara a ser letra
+				{
+            		indice= 91 - indice;
+        		}
+      		}
+		}
+
+		text[i] = indice;
+  	}
+	printf("%s\n", text);
 }
 
-char* desencriptarCifraDeSubstituicao(int nDeslocamento, char text[167])
+void desencriptarCifraDeSubstituicao(int nDeslocamento, char text[167])
 {
-	return " ";
+  nDeslocamento = nDeslocamento * (-1);
+  char indice=' ';//variavel que guardará o indice que esta sendo analisado
+
+	for (int i = 0; text[i] != '\0'; i++){// percorrendo o texto passado
+
+		indice = toupper(text[i]);//pegando o caracter e passando para maiuscula
+   
+   		if (indice>='A' && indice<='Z')//verificando se é uma letra
+		{
+			indice += nDeslocamento;//se for um letra acrescentamos a quantidade de deslocamento
+
+			if(indice > 'Z')//se o deslocamente der um codigo ASCII maior que o codigo ASCII de Z 
+			{
+				indice = indice - 'Z';//calculamos o excedente que passou do codigo ASCII do Z
+
+				//Depois verificamos se ele é maior que 10 para saber se caracter passara a ser numero ou nao
+				//pois se for maior que 10 ele passara por todas os numeros e voltara a ser letra
+				if(indice > 10)
+				{	// calculamos o excedente de 10 e acrescentamos 64 para voltar ao codigo ASCII das letras maiusculas
+					indice =  64 + (indice-10);
+				}
+				else//caso seja menor ou igual a 10 significa que a letra passara a ser numero logo
+				{
+					indice +=47;//ascrescentamos ao excedente do codigo ASCII do Z, 47
+				}
+ 			}
+			else if(indice<'A')//se o deslocamente der um codigo ASCII menor que o codigo ASCII de A
+			{
+         		indice = ('A' - indice);//calculamos o excedente que passou do codigo ASCII do A
+
+				//Depois verificamos se ele é maior que 10 para saber se caractere passara a ser numero ou nao
+				//pois se for maior que 10 ele passara por todas os numeros e voltara a ser letra
+				if(indice>10)
+				{
+					indice = 91 -(indice - 10);
+				}
+				else if(indice<=10)//caso seja menor ou igual a 10 significa que a letra passara a ser numero logo
+				{
+					indice = 58 - indice;//decrementamos ao excedente do codigo ASCII do Z, 47
+				}
+			}
+		}
+    	else if (indice >='0' && indice <='9')//verificando se é um numero
+		{
+			indice += nDeslocamento;///se for um numero acrescentamos a quantidade de deslocamento
+
+			if(indice > '9')//se der um codigo ASCII maior que o codigo ASCII do 9 esse caractere devera passar para letra
+			{
+				indice = indice - '9';//calculamos o excedente que passou do codigo ASCII do 9
+
+				//Depois verificamos se ele é maior que 26 para saber se caracter passara a ser uma letra ou nao
+				//pois se for maior que 26 ele passara por todas as letras e voltara a ser um numero
+				if(indice > 26)
+				{	// calculamos o excedente de 26 e acrescentamos  para voltar ao codigo ASCII das letras maiusculas
+					indice =  47 + (indice-26);
+				}
+				else //caso seja menor ou igual a 26 significa que a numero passara a ser letra logo
+				{
+					indice += 64;//ascrescentamos ao excedente do codigo ASCII que comeca o alfabeto em maiusculas
+				}
+		  	}
+			else if(indice<'0')//se der um codigo ASCII menor que o codigo ASCII de 0 esse caractere devera passar para letra
+			{
+        		indice = ('0' - indice);//calculamos o excedente que passou do codigo ASCII do 0
+
+				//Depois verificamos se ele é maior que 26 para saber se caracter passara a ser uma letra ou nao
+				//pois se for maior que 26 ele passara por todas as letras e voltara a ser um numero
+        		if(indice > 26)
+				{	// calculamos o excedente de 26 e acrescentamos  para voltar ao codigo ASCII dos numeros
+            		indice= 58 -(indice-26);
+        		}
+				else//se for nenor ou igual a 26 o numero passara a ser letra
+				{
+            		indice= 91 - indice;
+        		}
+      		}
+		}
+
+		text[i] = indice;
+  	}
+	printf("%s\n", text);
 }
-*/
+
 void cifraDeTransposicao(int nColuna, char text[167])
 {
 	//declarando variaveis 
@@ -135,6 +265,7 @@ void cifraDeTransposicao(int nColuna, char text[167])
 		printf("\n");//pula pra proxima linha
 	}
 	*/
+	
 
 	count=0;//reset variavel
 
@@ -143,7 +274,7 @@ void cifraDeTransposicao(int nColuna, char text[167])
 	{
 		for(int i=0;i<numLinhas;i++)//percorre as linhas
 		{
-			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
+			textoEncriptado[count]=matrizTexto[i][j];//coloca o caracter na posicao (i,j) na string encriptada 
 			count++;//para ir para a proxima posicao count acresenta um
 		}
 	}
@@ -222,7 +353,7 @@ void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 		for(int i=0;i<nColuna;i++)//percorre as linhas
 		{
 			//printf("I = %d",i);
-			textoEncriptado[count]=toupper(matrizTexto[i][j]);//coloca o caracter na posicao (i,j) na string encriptada 
+			textoEncriptado[count]=matrizTexto[i][j];//coloca o caracter na posicao (i,j) na string encriptada 
 			count++;//para ir para a proxima posicao count acresenta um
 		}
 		textoEncriptado[count]='\0';//finaliza o texto
@@ -230,51 +361,6 @@ void desencriptarCifraDeTransposicao(int nColuna, char text[167])
 
 	printf("%s\n",textoEncriptado);//mostra o TEXTO ENCRIPTADO 
 }
-
-/*
-char cifraDeTransposicaoExtra(char text)
-{
-	Um outro dipo de cifra de transposicao simples pode ser descrita da seguinte forma:
-
-	Considere uma texting S, constituida por N carateres, identificados na forma S = S1S2...SN
-
-		Se o comprimento de S e 1 ou 2 entao a funcao encript(S) = S, isto e, a própria texting.
-		Se S for uma texting de comprimento N > 2 entao encript(S) = encript(Sk...S2S1) + encript(SNSN-1...Sk+1) + em que:
-			k = N/2, divisao inteira
-			símbolo + significa concatenacao de textings, e.g. AB+CB=ABCD
-
-	Exemplos:
-
-	encript("OK") = "OK"
-
-	encript("12345678") = encript("4321") + encript("8765") 
-						= encript("34") + encript("12") + encript("78") + encript("56") 
-						= "34127856"
-
-	Neste caso, todos os caracteres do texto deverao ser encriptados e o parametro n nao devera ser lido.
-
-	Esta cifra implementa-se naturalmente usando uma funcao recursiva. Uma declaracao possível para esta funcao e a seguinte:
-
-	char * encrypt(char * s, const int length);
-
-	Sera tambem conveniente a implementacao de uma funcao que inverta uma texting com a seguinte declaracao:
-
-	char * reverse(char * s, const unsigned int n);
-
-	A implementacao desta funcionalidade e opcional e sera avaliada, num constest separado no PANDORA (2).
-	 Os alunos que optarem por fazer esta implementacao poderao substituir a nota de um dos exercícios praticos
-	  pela nota obtida nesta implementacao.
-
-	Os alunos nao terao melhor nota no Mini Projecto pela implementacao desta funcionalidade. 
-	Apenas poderao substituir a nota obtida num dos exercícios praticos.
-	return ' ';
-}
-
-char desencriptarcifraDeTransposicaoExtra(char text)
-{
-	return ' ';
-}
-*/
 
 int main()
 {
@@ -287,17 +373,21 @@ int main()
 	{
 		do//pegando input e validando
 		{
-			scanf(" %1c%*c%d%*c%167[^\n]",&opcao, &nDeslocamento,text);//pegando opcao, numero de deslocamento e texto
-	
+			scanf(" %1c", &opcao);
+			if (opcao!='q')
+			{
+				scanf("%*c%d%*c%167[^\n]", &nDeslocamento,text);//pegando opcao, numero de deslocamento e texto
+			}
+
 		} while (validacao(opcao,nDeslocamento));//validando opcao e deslocamento, se inválido = mostrar erro e pedir novamente 
 
 		switch (opcao)
 		{
 			case 's':
-				//cifraDeSubstituicao(nDeslocamento,text);
+				cifraDeSubstituicao(nDeslocamento,text);
 				break;
 			case 'S':
-				//desencriptarCifraDeSubstituicao(nDeslocamento,text);
+				desencriptarCifraDeSubstituicao(nDeslocamento,text);
 				break;
 			case 't':
 				cifraDeTransposicao(nDeslocamento,text);
@@ -317,3 +407,4 @@ int main()
 	}while(opcao!='q');
 	printf("Exiting->\n");
 }
+
